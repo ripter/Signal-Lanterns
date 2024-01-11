@@ -1,18 +1,18 @@
 # Lanterns
 
-## Black Hole (aka Null)
-* ID: <code>#00000000</code>
+Lanterns provide the API for the language. They do something when a Signal collides with them. Many can be "configured" to change it's behaviour.
 
-Absorbs signals, never emits.
+## Black Hole (aka Null)
+Eats all signals that collide with it, destroying them.
+
+
+## Terminate (aka TERM)
+Absorbs signal, Exits Runner, stopping exicution of the program. If a runner was not used, then it does nothing.
 
 
 ## Standard Output (STDOUT)
-* ID: <code>#00000100</code>
-
-Absorbs signal, passed data to STDOUT.
+Absorbs signal, color is converted into UTF-8 char codes and sent to STDOUT.
 
 
 ## Generator
-* ID: <code>#10000000</code>
-
-Generates a signal at a specific interval.
+Generates a signal at a specific interval and direction.
