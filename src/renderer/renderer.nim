@@ -1,21 +1,21 @@
 import pixie
 
-proc renderWorkspace*() =
-  echo "Do some rendering"
-  let image = newImage(200, 200)
+proc drawHexagon(image: var Image, color: ColorRGBA) =
+  let width: float32 = image.width / 2
+  let height: float32 = image.height / 2
+  # Create a Hexagon path
   let path = newPath()
-  path.polygon(vec2(100, 100), 70, sides = 6)
+  path.polygon(vec2(width, height), width, sides = 6)
+  # Draw the path
+  image.fillPath(path, color)
 
-  let polygonImage = newImage(200, 200)
-  polygonImage.fillPath(path, rgba(255, 255, 255, 255))
 
-  let shadow = polygonImage.shadow(
-    offset = vec2(2, 2),
-    spread = 2,
-    blur = 10,
-    color = rgba(0, 0, 0, 200)
-  )
 
-  image.draw(shadow)
-  image.draw(polygonImage)
+proc renderWorkspace*() =
+  # Create a new image to draw on
+  var image = newImage(200, 200)
+
+  drawHexagon(image, rgba(255, 155, 155, 255))
+
+  # Write the image to disk.
   image.writeFile("output.png")
