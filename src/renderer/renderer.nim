@@ -5,7 +5,7 @@ proc drawHexagon(image: var Image, color: ColorRGBA) =
   let height: float32 = image.height / 2
   # Create a Hexagon path
   let path = newPath()
-  path.polygon(vec2(width, height), width, sides = 6)
+  path.polygon(vec2(width, height), height, sides = 6)
   # Draw the path
   image.fillPath(path, color)
 
