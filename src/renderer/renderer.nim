@@ -2,6 +2,8 @@ import std/[strformat, math, random]
 import pixie
 import chroma
 
+import ../hexagon
+
 proc randomColor(): ColorRGBA =
   let
     r = rand(255).uint8
@@ -11,15 +13,7 @@ proc randomColor(): ColorRGBA =
   return rgba(r, g, b, 255)
 
 
-proc hexagonWidth(height: int): int =
-  let width: float = (toFloat(height) / 2.0) * sqrt(3.0)
-  return width.toInt()
 
-proc horizOffset(size: int): float32 =
-  return sqrt(3.0) * toFloat(size)/2.0
-
-proc vertOffset(size: int): float32 =
-  return 3/2 * toFloat(size)/2.0
 
 
 proc drawHexagon(image: var Image, color: ColorRGBA) =
@@ -33,29 +27,42 @@ proc drawHexagon(image: var Image, color: ColorRGBA) =
 
 
 
-proc renderWorkspace*(hexSize: int) =
-  let height = hexSize
-  let width = hexagonWidth(hexSize)
-  let vertOffset = vertOffset(hexSize)
-  let horizOffset = horizOffset(hexSize)
+proc renderWorkspace*(hexgonSize: int): Image =
+  let hexSize = newHexagonSize(hexgonSize.toFloat())
+  echo &"Hexagon size: {hexSize}"
 
-  echo &"Width: {width} Height: {height}"
-  echo &"Vert Offset: {vertOffset} Horiz Offset: {horizOffset}"
+  # create the result image.
+  let workspaceWidth:int = toInt(hexSize.width * 3.0)
+  let workspaceHeight:int = toInt(hexSize.height * 3.0)
+  result = newImage(workspaceWidth, workspaceHeight)
 
-  var outImage = newImage(width * 2, height * 2)
-  var ctx = newContext(outImage)
+  # Create a buffer to draw on
+  var buffer = newImage(hexSize.width.toInt(), hexSize.height.toInt())
+  # Create a context so we can draw the buffer at position.
+  let ctx = newContext(result)
 
-  # Create a new image to draw on
-  var image = newImage(width, height)
 
-  drawHexagon(image, randomColor())
-  ctx.drawImage(image, 0, 0)
+  # var outImage = newImage(width * 2, height * 2)
 
-  drawHexagon(image, randomColor())
-  ctx.drawImage(image, horizOffset, 0)
+  # # Create a new image to draw on
+  # var image = newImage(width, height)
 
-  drawHexagon(image, randomColor())
-  ctx.drawImage(image, horizOffset/2, vertOffset)
+  drawHexagon(buffer, randomColor())
+  ctx.drawImage(buffer, 0, 0)
+  buffer.fill(rgba(0, 0, 0, 0))
 
-  # Write the image to disk.
-  outImage.writeFile("output.png")
+  drawHexagon(buffer, randomColor())
+  ctx.drawImage(buffer, hexSize.horzOffset, 0)
+  buffer.fill(rgba(0, 0, 0, 0))
+
+  # drawHexagon(buffer, randomColor())
+  # ctx.drawImage(buffer, hexSize.horzOffset, hexSize.vertOffset)
+  # buffer.fill(rgba(0, 0, 0, 0))
+
+  # drawHexagon(buffer, randomColor())
+  # ctx.drawImage(buffer, hexSize.width, hexSize.vertOffset)
+  # buffer.fill(rgba(0, 0, 0, 0))
+
+
+  # # Write the image to disk.
+  # outImage.writeFile("output.png")

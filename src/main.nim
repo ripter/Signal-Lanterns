@@ -1,5 +1,9 @@
 import std/random
+
+import pixie
+
 import renderer/renderer
+
 
 
 type 
@@ -53,4 +57,5 @@ randomize()
 # echo testSignal
 
 
-renderWorkspace(200)
+let outImage = renderWorkspace(100)
+outImage.writeFile("output.png")
