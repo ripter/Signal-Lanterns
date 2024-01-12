@@ -39,18 +39,18 @@ type
     position: AxialCoordinate  # Position of the lantern on the grid
 
 
-
+# Start the randomizer!
 randomize()
 
 
-echo "Hello World"
-let testSignal = Signal(
-  # color: RGBA(r: 255, g: 0, b: 0, a: 255), 
-  color: [255'u8, 0'u8, 0'u8, 255'u8],
-  position: [0, 0],
-  direction: dEast
-  )
-echo testSignal
+# echo "Hello World"
+# let testSignal = Signal(
+#   # color: RGBA(r: 255, g: 0, b: 0, a: 255), 
+#   color: [255'u8, 0'u8, 0'u8, 255'u8],
+#   position: [0, 0],
+#   direction: dEast
+#   )
+# echo testSignal
 
 
-renderWorkspace()
+renderWorkspace(200)
