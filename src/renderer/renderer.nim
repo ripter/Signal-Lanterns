@@ -1,6 +1,6 @@
 import std/[strformat, math, random]
-import pixie
 import chroma
+import pixie
 
 import ../workspace
 import ../hexagon
@@ -28,15 +28,6 @@ proc drawFilledHexagon(image: var Image, color: ColorRGBA) =
   image.fillPath(path, color)
 
 
-proc newImage(workspace: Workspace): Image =
-  let width:int = workspace.hexSize.width.toInt()
-  let height:int = workspace.hexSize.height.toInt()
-  # let width:int = workspace.hexSize * (workspace.radius + 1)
-  return newImage(width, width)
-  # let hexSize = newHexagonSize(workspace.hexSize.toFloat())
-  # let width:int = toInt(hexSize.width * 3.0)
-  # let height:int = toInt(hexSize.height * 3.0)
-  # return newImage(width, height)
 
 
 proc renderWorkspace*(workspace: Workspace): Image =

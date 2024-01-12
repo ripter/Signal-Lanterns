@@ -1,6 +1,8 @@
 import std/math
 import std/strformat
 
+from pixie import Image, newImage
+
 type HexagonSize* = ref object
   size*: float
   width*: float
@@ -32,7 +34,7 @@ proc calcVertOffset(size: float): float =
 proc newHexagonSize*(size: float): HexagonSize =
   result = new HexagonSize
   result.size = size
-  result.height =calcHeight(size) 
+  result.height = calcHeight(size) 
   result.width = calcWidth(size)
   result.horzOffset = calcHorizOffset(size)
   result.vertOffset = calcVertOffset(size)
@@ -40,3 +42,9 @@ proc newHexagonSize*(size: float): HexagonSize =
 
 proc `$`*(hexSize: HexagonSize): string =
   &"\nHexagonSize(\n\tsize: {hexSize.size}, \n\twidth: {hexSize.width}, \n\theight: {hexSize.height}, \n\thorzOffset: {hexSize.horzOffset}, \n\tvertOffset: {hexSize.vertOffset}\n)"
+
+
+proc newImage*(hexSize: HexagonSize): Image =
+  let width:int = hexSize.width.toInt()
+  let height:int = hexSize.height.toInt()
+  return newImage(width, height)
