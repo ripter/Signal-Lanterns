@@ -1,8 +1,8 @@
 import std/random
-
 import pixie
 
-import renderer/renderer
+import ./renderer/renderer
+from workspace import newWorkspace
 
 
 
@@ -43,8 +43,6 @@ type
     position: AxialCoordinate  # Position of the lantern on the grid
 
 
-# Start the randomizer!
-randomize()
 
 
 # echo "Hello World"
@@ -57,5 +55,14 @@ randomize()
 # echo testSignal
 
 
-let outImage = renderWorkspace(100)
-outImage.writeFile("output.png")
+proc main() =
+  # Start the randomizer!
+  randomize()
+  # Create a Workspace and render it to an image.
+  let workspace = newWorkspace(1, 100)
+  let outImage = renderWorkspace(workspace)
+  outImage.writeFile("output.png")
+
+
+# Run the Application
+main()
