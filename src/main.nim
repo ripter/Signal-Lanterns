@@ -1,3 +1,4 @@
+import std/random
 import renderer/renderer
 
 
@@ -39,7 +40,7 @@ type
 
 
 
-
+randomize()
 
 
 echo "Hello World"
