@@ -28,6 +28,13 @@ proc drawFilledHexagon(image: var Image, color: ColorRGBA) =
   image.fillPath(path, color)
 
 
+proc drawHexagon(ctx: Context, pos: Vec2, size: float, color: ColorRGBA) =
+  ctx.beginPath()
+  ctx.polygon(pos, size, sides = 6)
+  ctx.closePath()
+  ctx.strokeStyle = color
+  ctx.stroke()
+
 
 
 proc renderWorkspace*(workspace: Workspace): Image =
@@ -47,12 +54,20 @@ proc renderWorkspace*(workspace: Workspace): Image =
   # # Create a new image to draw on
   # var image = newImage(width, height)
 
-  drawFilledHexagon(buffer, randomColor())
-  # Draw in the center
+  # drawFilledHexagon(buffer, randomColor())
+  # # Draw in the center
   let gridCenterX = result.width / 2
   let gridCenterY = result.height / 2
-  ctx.drawImage(buffer, gridCenterX - (hexSize.width/2), gridCenterY - (hexSize.height/2))
+  ctx.drawHexagon(
+    vec2(gridCenterX, gridCenterY), 
+    hexSize.size, 
+    randomColor()
+  )
+  
+  # ctx.drawImage(buffer, gridCenterX - (hexSize.width/2), gridCenterY - (hexSize.height/2))
 
+
+  # drawHexagon(ctx, randomColor())
   # drawHexagon(buffer, randomColor())
   # ctx.drawImage(buffer, hexSize.horzOffset, 0)
 

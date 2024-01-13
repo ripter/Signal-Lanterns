@@ -19,6 +19,7 @@ proc `$`*(wksp: Workspace): string =
 
 
 proc newImage*(workspace: Workspace): Image =
+  ## Creates an image based on the size of the workspace and hexagons.
   let hexWidth = workspace.hexSize.width.toInt()
   let hexHeight = workspace.hexSize.height.toInt()
   let width = hexWidth + (hexWidth * workspace.radius * 2)
