@@ -25,3 +25,4 @@ proc newImage*(workspace: Workspace): Image =
   let width = hexWidth + (hexWidth * workspace.radius * 2)
   let height = hexHeight + (hexHeight * workspace.radius * 2)
   return newImage(width, height)
+

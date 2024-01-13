@@ -5,13 +5,13 @@ import pixie
 import ../workspace
 import ../hexagon
 
-proc randomColor(): ColorRGBA =
+proc randomColor(): Color =
   let
     r = rand(255).uint8
     g = rand(255).uint8
     b = rand(255).uint8
 
-  return rgba(r, g, b, 255)
+  return color(rgba(r, g, b, 255))
 
 
 
@@ -20,12 +20,12 @@ proc pathHexagon(ctx: Context, pos: Vec2, size: float) =
   ctx.polygon(pos, size, sides = 6)
   ctx.closePath()
 
-proc drawFilledHexagon(ctx: Context, pos: Vec2, size: float, color: ColorRGBA) =
+proc drawFilledHexagon(ctx: Context, pos: Vec2, size: float, color: Color) =
   ctx.pathHexagon(pos, size)
   ctx.fillStyle = color
   ctx.fill()
 
-proc drawHexagon(ctx: Context, pos: Vec2, size: float, color: ColorRGBA) =
+proc drawHexagon(ctx: Context, pos: Vec2, size: float, color: Color) =
   ctx.pathHexagon(pos, size)
   ctx.strokeStyle = color
   ctx.stroke()
@@ -40,59 +40,28 @@ proc renderWorkspace*(workspace: Workspace): Image =
   # Create a context so we can draw the buffer at position.
   let ctx = newContext(result)
 
-  # Create a buffer to draw on
-  var buffer = newImage(hexSize.width.toInt(), hexSize.height.toInt())
-
-
-  # var outImage = newImage(width * 2, height * 2)
-
-  # # Create a new image to draw on
-  # var image = newImage(width, height)
-
-  # drawFilledHexagon(buffer, randomColor())
-  # # Draw in the center
+  # Draw in the center
   let gridCenterX = result.width / 2
   let gridCenterY = result.height / 2
   ctx.drawFilledHexagon(
     vec2(gridCenterX, gridCenterY), 
     hexSize.size, 
-    randomColor()
+    parseHtmlHex("#2ECC40")
+    # randomColor()
   )
 
   ctx.drawHexagon(
     vec2(gridCenterX+hexSize.width, gridCenterY), 
     hexSize.size, 
-    randomColor()
+    parseHtmlHex("#0074D9")
+    # randomColor()
   )
 
   ctx.drawHexagon(
     vec2(gridCenterX-hexSize.width, gridCenterY), 
     hexSize.size, 
-    randomColor()
+    parseHtmlHex("#FF4136")
+    #FF4136
+    # randomColor()
   )
   
-  # ctx.drawImage(buffer, gridCenterX - (hexSize.width/2), gridCenterY - (hexSize.height/2))
-
-
-  # drawHexagon(ctx, randomColor())
-  # drawHexagon(buffer, randomColor())
-  # ctx.drawImage(buffer, hexSize.horzOffset, 0)
-
-  # drawHexagon(buffer, randomColor())
-  # ctx.drawImage(
-  #   buffer, 
-  #   (hexSize.horzOffset/2), 
-  #   hexSize.vertOffset
-  #   )
-
-  # drawHexagon(buffer, randomColor())
-  # ctx.drawImage(
-  #   buffer, 
-  #   (hexSize.horzOffset/2) + hexSize.horzOffset,
-  #   hexSize.vertOffset
-  #   )
-  # buffer.fill(rgba(0, 0, 0, 0))
-
-
-  # # Write the image to disk.
-  # outImage.writeFile("output.png")
