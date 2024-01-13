@@ -47,21 +47,17 @@ proc renderWorkspace*(workspace: Workspace): Image =
     vec2(gridCenterX, gridCenterY), 
     hexSize.size, 
     parseHtmlHex("#2ECC40")
-    # randomColor()
   )
 
   ctx.drawHexagon(
     vec2(gridCenterX+hexSize.width, gridCenterY), 
     hexSize.size, 
     parseHtmlHex("#0074D9")
-    # randomColor()
   )
 
   ctx.drawHexagon(
     vec2(gridCenterX-hexSize.width, gridCenterY), 
     hexSize.size, 
     parseHtmlHex("#FF4136")
-    #FF4136
-    # randomColor()
   )
   
