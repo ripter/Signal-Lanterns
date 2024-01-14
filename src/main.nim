@@ -59,7 +59,7 @@ proc main() =
   # Start the randomizer!
   randomize()
   # Create a Workspace and render it to an image.
-  let workspace = newWorkspace(1, 100)
+  let workspace = newWorkspace(2, 100)
   let outImage = renderWorkspace(workspace)
   outImage.writeFile("output.png")
 

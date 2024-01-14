@@ -5,6 +5,9 @@ import pixie
 import ../workspace
 import ../hexagon
 
+
+
+
 proc randomColor(): Color =
   let
     r = rand(255).uint8
@@ -43,21 +46,33 @@ proc renderWorkspace*(workspace: Workspace): Image =
   # Draw in the center
   let gridCenterX = result.width / 2
   let gridCenterY = result.height / 2
-  ctx.drawFilledHexagon(
-    vec2(gridCenterX, gridCenterY), 
+
+  ctx.drawHexagon(
+    workspace.toPixelPos((q: 0, r: 0)),
     hexSize.size, 
     parseHtmlHex("#2ECC40")
   )
 
   ctx.drawHexagon(
-    vec2(gridCenterX+hexSize.width, gridCenterY), 
+    workspace.toPixelPos((q: 1, r: 0)),
     hexSize.size, 
     parseHtmlHex("#0074D9")
   )
 
   ctx.drawHexagon(
-    vec2(gridCenterX-hexSize.width, gridCenterY), 
+    workspace.toPixelPos((q: -1, r: 0)),
     hexSize.size, 
     parseHtmlHex("#FF4136")
   )
   
+  ctx.drawHexagon(
+    workspace.toPixelPos((q: 0, r: -1)),
+    hexSize.size, 
+    parseHtmlHex("#FFDC00")
+  )
+
+  ctx.drawHexagon(
+    workspace.toPixelPos((q: -1, r: 1)),
+    hexSize.size, 
+    parseHtmlHex("#2ECC40")
+  )

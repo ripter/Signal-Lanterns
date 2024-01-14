@@ -3,7 +3,7 @@ from pixie import Image, newImage, Vec2, vec2
 
 from ./hexagon import HexagonSize, newHexagonSize
 
-type AxialCoordinate = tuple[q: int, r: int, s: int]
+type AxialCoordinate = tuple[q: int, r: int]
 
 type Workspace* = ref object
   radius*: int
@@ -16,8 +16,8 @@ proc newWorkspace*(radius: int, hexSize: int): Workspace =
   let hexagonSize = newHexagonSize(hexSize.toFloat())
   let hexWidth = hexagonSize.width.toInt()
   let hexHeight = hexagonSize.height.toInt()
-  let width = hexWidth + (hexWidth * radius * 2)
-  let height = hexHeight + (hexHeight * radius * 2)
+  let width = hexWidth + (hexWidth * (radius-1) * 2)
+  let height = hexHeight + (hexHeight * (radius-1) * 2)
 
   result = new Workspace
   result.radius = radius
@@ -31,17 +31,19 @@ proc `$`*(wksp: Workspace): string =
 
 
 proc newImage*(workspace: Workspace): Image =
-  ## Creates an image based on the size of the workspace and hexagons.
-  let radius = workspace.radius - 1
-  let hexWidth = workspace.hexSize.width.toInt()
-  let hexHeight = workspace.hexSize.height.toInt()
-  let width = hexWidth + (hexWidth * radius * 2)
-  let height = hexHeight + (hexHeight * radius * 2)
-  return newImage(width, height)
+  return newImage(workspace.width, workspace.height)
 
 
 proc toPixelPos*(wksp: Workspace, axialPos: AxialCoordinate): Vec2 =
-  let centerX:float = wksp.radius.toFloat() * wksp.hexSize.width
-  let centerY:float = wksp.radius.toFloat() * wksp.hexSize.height
+  let hexWidth = wksp.hexSize.width
+  let horzOffset = wksp.hexSize.horzOffset
+  let vertOffset = wksp.hexSize.vertOffset
+  let centerX:float = wksp.width.toFloat() / 2.0
+  let centerY:float = wksp.height.toFloat() / 2.0
 
-  return vec2(centerX, centerY)
+  # q translates to move horizontally
+  var xOffset:float = axialPos.q.toFloat() * hexWidth
+  # r translates to move diagonally
+  let yOffset:float = axialPos.r.toFloat() * (vertOffset)
+  xOffset += axialPos.r.toFloat() * (horzOffset/2)
+  return vec2(centerX + xOffset, centerY + yOffset)
