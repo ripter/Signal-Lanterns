@@ -47,8 +47,8 @@ proc renderWorkspace*(workspace: Workspace): Image =
   result.fill(parseHtmlHex("#000000"))
 
   # Draw a row of hexagons
-  var startPos:int = 0 - toInt(workspace.radius/2)
-  var endPos:int = toInt(workspace.radius/2)
+  var startPos:int = 0 - toInt(workspace.radius/2)-1
+  var endPos:int = toInt(workspace.radius/2)+1
   for q in startPos..endPos:
     for r in (startPos-q)..(endPos-q):
       let pos = workspace.toPixelPos((q: q, r: r))

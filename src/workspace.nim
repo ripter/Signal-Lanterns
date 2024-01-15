@@ -17,7 +17,7 @@ proc newWorkspace*(radius: int, hexSize: int): Workspace =
   let hexWidth = hexagonSize.width.toInt()
   let hexHeight = hexagonSize.height.toInt()
   let width = hexWidth + (hexWidth * (radius-1) * 2)
-  let height = (hexHeight*2) + (hexHeight * (radius-1) * 2)
+  let height = hexHeight + (hexHeight * (radius-1) * 2)
 
   result = new Workspace
   result.radius = radius
