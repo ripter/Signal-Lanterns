@@ -35,6 +35,7 @@ proc drawHexagon(ctx: Context, pos: Vec2, size: float, color: Color) =
 
 
 
+
 proc renderWorkspace*(workspace: Workspace): Image =
   # let hexSize = newHexagonSize(workspace.hexSize.toFloat())
   let hexSize = workspace.hexSize
@@ -42,11 +43,19 @@ proc renderWorkspace*(workspace: Workspace): Image =
   result = newImage(workspace)
   # Create a context so we can draw the buffer at position.
   let ctx = newContext(result)
+  # Background Fill
+  result.fill(parseHtmlHex("#000000"))
 
-  # Draw in the center
-  let gridCenterX = result.width / 2
-  let gridCenterY = result.height / 2
+  # Draw a row of hexagons
+  var startPos:int = 0 - toInt(workspace.radius/2)
+  var endPos:int = toInt(workspace.radius/2)
+  for q in startPos..endPos:
+    for r in (startPos-q)..(endPos-q):
+      let pos = workspace.toPixelPos((q: q, r: r))
+      ctx.drawHexagon(pos, hexSize.size, parseHtmlHex("#FFFFFF"))
+  
 
+  #[
   ctx.drawHexagon(
     workspace.toPixelPos((q: 0, r: 0)),
     hexSize.size, 
@@ -76,3 +85,4 @@ proc renderWorkspace*(workspace: Workspace): Image =
     hexSize.size, 
     parseHtmlHex("#2ECC40")
   )
+  ]#
