@@ -35,9 +35,10 @@ proc drawHexagon(ctx: Context, pos: Vec2, size: float, color: Color) =
 
 
 
-proc renderHexagonRing(ctx: Context, workspace: Workspace, ringPos: int, hexSize: float, color: Color) =
-  let minValue = -ringPos
-  let maxValue = ringPos
+proc renderHexagonGrid(ctx: Context, workspace: Workspace, color: Color) =
+  let hexSize = workspace.hexSize.size
+  let minValue = -workspace.radius
+  let maxValue = workspace.radius
   var s = 0
 
   for q in minValue..maxValue:
@@ -50,57 +51,15 @@ proc renderHexagonRing(ctx: Context, workspace: Workspace, ringPos: int, hexSize
 
 
 proc renderWorkspace*(workspace: Workspace): Image =
-  # let hexSize = newHexagonSize(workspace.hexSize.toFloat())
-  let hexSize = workspace.hexSize
+  let bgColor = parseHtmlHex("#000000")
+  let color = parseHtmlHex("#2ECC40") 
   # create the result image from the workspace.
   result = newImage(workspace)
   # Create a context so we can draw the buffer at position.
   let ctx = newContext(result)
   # Background Fill
-  result.fill(parseHtmlHex("#000000"))
+  result.fill(bgColor)
 
-  # Draw a ring of hexagons
-  ctx.renderHexagonRing(workspace, 3, hexSize.size, parseHtmlHex("#2ECC40"))
+  # Draw the Hexagon Grid
+  ctx.renderHexagonGrid(workspace, color)
 
-  # Draw a row of hexagons
-  #[
-  var startPos:int = 0 - toInt(workspace.radius/2)-1
-  var endPos:int = toInt(workspace.radius/2)+1
-  for q in startPos..endPos:
-    for r in (startPos-q)..(endPos-q):
-      let pos = workspace.toPixelPos((q: q, r: r))
-      ctx.drawHexagon(pos, hexSize.size, parseHtmlHex("#2ECC40"))
-  ]#
-  
-
-  #[
-  ctx.drawHexagon(
-    workspace.toPixelPos((q: 0, r: 0)),
-    hexSize.size, 
-    parseHtmlHex("#2ECC40")
-  )
-
-  ctx.drawHexagon(
-    workspace.toPixelPos((q: 1, r: 0)),
-    hexSize.size, 
-    parseHtmlHex("#0074D9")
-  )
-
-  ctx.drawHexagon(
-    workspace.toPixelPos((q: -1, r: 0)),
-    hexSize.size, 
-    parseHtmlHex("#FF4136")
-  )
-  
-  ctx.drawHexagon(
-    workspace.toPixelPos((q: 0, r: -1)),
-    hexSize.size, 
-    parseHtmlHex("#FFDC00")
-  )
-
-  ctx.drawHexagon(
-    workspace.toPixelPos((q: -1, r: 1)),
-    hexSize.size, 
-    parseHtmlHex("#2ECC40")
-  )
-  ]#
