@@ -12,17 +12,17 @@ type Workspace* = ref object
   height*: int
 
 
-proc newWorkspace*(radius: int, hexSize: int): Workspace =
-  let hexagonSize = newHexagonSize(hexSize.toFloat())
+proc newWorkspace*(radius: float, hexSize: float): Workspace =
+  let hexagonSize = newHexagonSize(hexSize)
   let hexWidth:float = hexagonSize.width
   let hexHeight:float = hexagonSize.height
-  let verticalSpacing:float = 1.5 * hexSize.toFloat()
-  let diameter:float = radius.toFloat() * 2
+  let verticalSpacing:float = 1.5 * hexSize
+  let diameter:float = radius * 2
   let width:float = hexWidth + (hexWidth * diameter)
-  let height: float = hexHeight + (verticalSpacing * (2 * radius.toFloat()))
+  let height: float = hexHeight + (verticalSpacing * diameter)
 
   result = new Workspace
-  result.radius = radius
+  result.radius = radius.toInt()
   result.hexSize = hexagonSize
   result.width = width.toInt()
   result.height = height.toInt()

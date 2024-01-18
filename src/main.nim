@@ -62,7 +62,7 @@ proc main() =
 
   for i in 1..5:
     # Create a Workspace and render it to an image.
-    let workspace = newWorkspace(i, 25)
+    let workspace = newWorkspace(toFloat(i), 25)
     let outImage = renderWorkspace(workspace)
     outImage.writeFile(&"output-{i}.png")
 
