@@ -1,3 +1,4 @@
+import std/strformat
 import std/random
 import pixie
 
@@ -58,10 +59,12 @@ type
 proc main() =
   # Start the randomizer!
   randomize()
-  # Create a Workspace and render it to an image.
-  let workspace = newWorkspace(4, 25)
-  let outImage = renderWorkspace(workspace)
-  outImage.writeFile("output.png")
+
+  for i in 1..5:
+    # Create a Workspace and render it to an image.
+    let workspace = newWorkspace(i, 25)
+    let outImage = renderWorkspace(workspace)
+    outImage.writeFile(&"output-{i}.png")
 
 
 # Run the Application

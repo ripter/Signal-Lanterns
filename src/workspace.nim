@@ -2,8 +2,8 @@ import std/[math, strformat]
 from pixie import Image, newImage, Vec2, vec2
 
 from ./hexagon import HexagonSize, newHexagonSize
+from ./AxialCoordinate import AxialCoordinate
 
-type AxialCoordinate* = tuple[q: int, r: int]
 
 type Workspace* = ref object
   radius*: int
@@ -14,20 +14,22 @@ type Workspace* = ref object
 
 proc newWorkspace*(radius: int, hexSize: int): Workspace =
   let hexagonSize = newHexagonSize(hexSize.toFloat())
-  let hexWidth = hexagonSize.width.toInt()
-  let hexHeight = hexagonSize.height.toInt()
-  let width = hexWidth + (hexWidth * (radius-1) * 2)
-  let height = hexHeight + (hexHeight * (radius-1) * 2)
+  let hexWidth:float = hexagonSize.width
+  let hexHeight:float = hexagonSize.height
+  let verticalSpacing:float = 1.5 * hexSize.toFloat()
+  let diameter:float = radius.toFloat() * 2
+  let width:float = hexWidth + (hexWidth * diameter)
+  let height: float = hexHeight + (verticalSpacing * (2 * radius.toFloat()))
 
   result = new Workspace
   result.radius = radius
   result.hexSize = hexagonSize
-  result.width = width
-  result.height = height
+  result.width = width.toInt()
+  result.height = height.toInt()
 
 
 proc `$`*(wksp: Workspace): string =
-  &"\nWorkspace(\n\tradius: {wksp.radius}, \n\thexSize: {0}\n)"
+  &"\nWorkspace(\n\tradius: {wksp.radius}, \n\thexSize: {wksp.hexSize.size}\n)"
 
 
 proc newImage*(workspace: Workspace): Image =
