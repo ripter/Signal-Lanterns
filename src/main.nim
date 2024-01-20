@@ -5,21 +5,7 @@ import pixie
 import ./renderer/renderer
 from workspace import newWorkspace
 
-
-
-
-
-# # Represents a signal in the system.
-# # A signal is defined by its color, position on the hexagonal grid, and direction.
-# type
-#   Signal = object
-#     color: RGBA                # The color of the signal
-#     position: AxialCoordinate  # The axial coordinate of the signal on the grid
-#     direction: Direction       # The direction the signal is pointing in
-
-
-
-
+import ./utils
 
 # echo "Hello World"
 # let testSignal = Signal(
@@ -38,6 +24,12 @@ proc main() =
   let workspace = newWorkspace(toFloat(3), 25)
   let outImage = renderWorkspace(workspace)
   outImage.writeFile(&"output.png")
+
+
+  # Convert the string into Colors!
+  let colorCodes = "Hello World".toColors()
+  for item in colorCodes:
+    echo item.color().toHtmlRgba()
 
   # for i in 1..5:
   #   # Create a Workspace and render it to an image.

@@ -1,3 +1,5 @@
+import chroma
+
 import ./types
 
 
@@ -5,6 +7,6 @@ import ./types
 # A signal is defined by its color, position on the hexagonal grid, and direction.
 type
   Signal* = object
-    color*: RGBA                # The color of the signal
+    color*: ColorRGBA           # The color of the signal
     position*: AxialCoordinate  # The axial coordinate of the signal on the grid
     direction*: Direction       # The direction the signal is pointing in
